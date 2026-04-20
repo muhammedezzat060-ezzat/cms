@@ -1,0 +1,89 @@
+/* Bootstrap 5 Integration for AUSR CMS Dashboard */
+/* This file contains minimal custom overrides on top of Bootstrap 5 */
+
+/* RTL Support */
+body {
+    direction: rtl;
+    font-family: 'Tajawal', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Sidebar Custom Styles */
+.bg-dark-custom {
+    background: #1e1e2d !important;
+}
+
+.nav-link {
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link.active {
+    background: rgba(54, 153, 255, 0.2) !important;
+    border-right: 4px solid #3699ff !important;
+}
+
+/* Form Controls */
+.form-control:focus {
+    border-color: #3699ff;
+    box-shadow: 0 0 0 0.25rem rgba(54, 153, 255, 0.25);
+}
+
+/* Card Enhancements */
+.card {
+    border: none;
+    border-radius: 0.5rem;
+}
+
+.card-header {
+    background: #ffffff;
+    border-bottom: 1px solid #ebedf3;
+}
+
+/* Button States */
+.btn-primary {
+    background-color: #3699ff;
+    border-color: #3699ff;
+}
+
+.btn-primary:hover {
+    background-color: #187de4;
+    border-color: #187de4;
+}
+
+.btn-primary:disabled {
+    background-color: #3699ff;
+    border-color: #3699ff;
+    opacity: 0.65;
+}
+
+/* Toast Notification */
+.toast {
+    min-width: 300px;
+}
+
+.toast-success {
+    background-color: #1bc5bd;
+    color: white;
+}
+
+.toast-error {
+    background-color: #f64e60;
+    color: white;
+}
+
+/* Loading Spinner */
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+    border-width: 0.15em;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .min-vh-100 {
+        min-height: auto;
+    }
+}
