@@ -1,0 +1,185 @@
+/* RESET & MODERN UI */
+:root {
+    --sidebar-bg: #1e1e2d;
+    --sidebar-hover: #2b2b40;
+    --primary-blue: #3699ff;
+    --content-bg: #f5f7f9;
+    --text-main: #3f4254;
+    --text-muted: #b5b5c3;
+    --border-color: #ebedf3;
+    --white: #ffffff;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Tajawal', sans-serif; background: var(--content-bg); color: var(--text-main); direction: rtl; }
+
+/* Dashboard Wrapper */
+#ausr-cms-app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.ausr-sidebar {
+    width: 265px;
+    background: var(--sidebar-bg);
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+}
+
+.ausr-sidebar-brand {
+    padding: 30px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.ausr-sidebar-brand h2 { font-size: 1.2rem; font-weight: 700; color: var(--primary-blue); }
+
+.ausr-menu {
+    flex: 1;
+    padding: 20px 0;
+}
+
+.ausr-menu-item {
+    width: 100%;
+    padding: 12px 30px;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    text-align: right;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+}
+
+.ausr-menu-item:hover, .ausr-menu-item.active {
+    background: var(--sidebar-hover);
+    color: var(--white);
+}
+
+.ausr-menu-item.active {
+    border-right: 4px solid var(--primary-blue);
+    background: rgba(54, 153, 255, 0.1);
+}
+
+/* Main Content Area */
+.ausr-main-container {
+    flex: 1;
+    margin-right: 265px; /* Same as sidebar width */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Sticky Header */
+.ausr-top-header {
+    height: 65px;
+    background: var(--white);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 900;
+}
+
+.ausr-top-header h1 { font-size: 1.1rem; font-weight: 600; }
+
+.ausr-btn-save {
+    background: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    padding: 10px 25px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.3s;
+}
+
+.ausr-btn-save:hover { background: #187de4; }
+
+/* Content Sections */
+.ausr-content-body { padding: 30px; }
+
+.ausr-section { display: none; }
+.ausr-section.active { display: block; animation: fadeIn 0.4s ease; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Cards & Fields */
+.ausr-card {
+    background: var(--white);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 20px 0 rgba(76, 87, 125, 0.02);
+}
+
+.ausr-field { margin-bottom: 20px; }
+.ausr-field:last-child { margin-bottom: 0; }
+
+.ausr-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.ausr-key-tag {
+    font-family: monospace;
+    font-size: 11px;
+    color: var(--primary-blue);
+    background: rgba(54, 153, 255, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.ausr-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 14px;
+    background: #fcfcfd;
+    transition: border-color 0.3s;
+}
+
+.ausr-input:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    background: var(--white);
+}
+
+textarea.ausr-input { min-height: 100px; resize: vertical; }
+
+/* Status Messages */
+.ausr-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    padding: 15px 25px;
+    border-radius: 6px;
+    color: white;
+    font-weight: 600;
+    z-index: 2000;
+    display: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+.ausr-toast.success { background: #1bc5bd; display: block; }
+.ausr-toast.error { background: #f64e60; display: block; }

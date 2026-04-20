@@ -1,0 +1,160 @@
+/**
+ * AUSR CMS - Simple Cards Layout CSS
+ * Basic cards using existing dashboard CSS
+ */
+
+/* ============================================================
+   Simple Cards Container
+   ============================================================ */
+.ausr-simple-cards {
+    padding: 20px;
+    background: var(--ausr-bg);
+}
+
+/* ============================================================
+   Cards Header
+   ============================================================ */
+.ausr-cards-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.ausr-cards-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ausr-navy);
+    margin-bottom: 8px;
+}
+
+.ausr-cards-subtitle {
+    font-size: 14px;
+    color: var(--ausr-muted);
+    margin: 0;
+}
+
+/* ============================================================
+   Simple Cards Grid
+   ============================================================ */
+.ausr-simple-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* ============================================================
+   Simple Cards
+   ============================================================ */
+.ausr-simple-card {
+    background: var(--ausr-surface);
+    border: 1px solid var(--ausr-border);
+    border-radius: var(--ausr-radius);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.ausr-simple-card:hover {
+    border-color: var(--ausr-gold);
+    box-shadow: 0 4px 12px rgba(201,168,76,0.15);
+    transform: translateY(-2px);
+}
+
+/* ============================================================
+   Card Header
+   ============================================================ */
+.ausr-card-header {
+    padding: 16px;
+    background: rgba(255,255,255,0.02);
+    border-bottom: 1px solid var(--ausr-border);
+}
+
+.ausr-card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ausr-navy);
+    margin: 0 0 4px 0;
+}
+
+.ausr-card-description {
+    font-size: 12px;
+    color: var(--ausr-muted);
+    margin: 0;
+}
+
+/* ============================================================
+   Card Content
+   ============================================================ */
+.ausr-card-content {
+    padding: 16px;
+}
+
+.ausr-field-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ausr-field-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: var(--ausr-bg);
+    border: 1px solid var(--ausr-border);
+    border-radius: 6px;
+}
+
+.ausr-field-item label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ausr-text);
+}
+
+.ausr-field-status {
+    font-size: 11px;
+    padding: 2px 6px;
+    background: rgba(16,185,129,0.1);
+    color: var(--ausr-success);
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+/* ============================================================
+   Card Actions
+   ============================================================ */
+.ausr-card-actions {
+    padding: 16px;
+    border-top: 1px solid var(--ausr-border);
+}
+
+/* ============================================================
+   Quick Actions
+   ============================================================ */
+.ausr-quick-actions {
+    margin-top: 30px;
+    text-align: center;
+}
+
+/* ============================================================
+   Responsive Design
+   ============================================================ */
+@media (max-width: 768px) {
+    .ausr-simple-cards {
+        padding: 16px;
+    }
+    
+    .ausr-simple-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .ausr-cards-title {
+        font-size: 20px;
+    }
+    
+    .ausr-cards-subtitle {
+        font-size: 13px;
+    }
+}

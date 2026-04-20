@@ -1,0 +1,572 @@
+/**
+ * AUSR CMS - Visual Cards Layout Styles
+ * Modern Cards Layout with Professional Design
+ */
+
+/* ============================================================
+   Visual Cards Container
+   ============================================================ */
+.ausr-visual-cards {
+    padding: 24px;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    min-height: 100vh;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ============================================================
+   Cards Header
+   ============================================================ */
+.ausr-cards-header {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.ausr-cards-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #f8fafc;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.ausr-cards-subtitle {
+    font-size: 16px;
+    color: #94a3b8;
+    margin: 0;
+}
+
+/* ============================================================
+   Cards Grid
+   ============================================================ */
+.ausr-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ============================================================
+   Section Cards
+   ============================================================ */
+.ausr-section-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.ausr-section-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.ausr-section-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+.ausr-section-card:hover::before {
+    opacity: 1;
+}
+
+/* ============================================================
+   Card Header
+   ============================================================ */
+.ausr-card-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+}
+
+.ausr-card-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: white;
+    margin-right: 16px;
+}
+
+.ausr-card-info {
+    flex: 1;
+}
+
+.ausr-card-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #f8fafc;
+    margin: 0 0 4px 0;
+}
+
+.ausr-card-description {
+    font-size: 14px;
+    color: #94a3b8;
+    margin: 0;
+}
+
+.ausr-preview-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #94a3b8;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.ausr-preview-btn:hover {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: rgba(59, 130, 246, 0.4);
+    color: #3b82f6;
+    transform: scale(1.05);
+}
+
+.ausr-preview-icon {
+    font-size: 18px;
+}
+
+/* ============================================================
+   Card Content
+   ============================================================ */
+.ausr-card-content {
+    padding: 20px;
+}
+
+.ausr-section-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ausr-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.ausr-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(59, 130, 246, 0.2);
+}
+
+.ausr-item-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #e2e8f0;
+}
+
+.ausr-item-status {
+    font-size: 12px;
+    padding: 4px 8px;
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+/* ============================================================
+   Card Actions
+   ============================================================ */
+.ausr-card-actions {
+    display: flex;
+    gap: 12px;
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ausr-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.ausr-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    transition: left 0.3s ease;
+    z-index: -1;
+}
+
+.ausr-btn-primary {
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    color: white;
+}
+
+.ausr-btn-primary::before {
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+}
+
+.ausr-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+}
+
+.ausr-btn-primary:hover::before {
+    left: 0;
+}
+
+.ausr-btn-secondary {
+    background: rgba(255, 255, 255, 0.08);
+    color: #e2e8f0;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.ausr-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(59, 130, 246, 0.4);
+    color: #3b82f6;
+    transform: translateY(-2px);
+}
+
+.ausr-btn-icon {
+    font-size: 16px;
+}
+
+/* ============================================================
+   Quick Actions Bar
+   ============================================================ */
+.ausr-quick-actions-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 48px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+}
+
+.ausr-actions-left,
+.ausr-actions-right {
+    display: flex;
+    gap: 12px;
+}
+
+.ausr-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.ausr-action-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(59, 130, 246, 0.4);
+    color: #3b82f6;
+    transform: translateY(-2px);
+}
+
+.ausr-action-btn.ausr-btn-success {
+    background: linear-gradient(135deg, #10b981, #059669);
+    border-color: transparent;
+    color: white;
+}
+
+.ausr-action-btn.ausr-btn-success:hover {
+    background: linear-gradient(135deg, #059669, #047857);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+}
+
+.ausr-action-icon {
+    font-size: 16px;
+}
+
+/* ============================================================
+   Preview Modal
+   ============================================================ */
+.ausr-preview-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: ausrModalFadeIn 0.3s ease;
+}
+
+.ausr-modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+}
+
+.ausr-modal-content {
+    position: relative;
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 800px;
+    max-height: 80vh;
+    overflow: hidden;
+    animation: ausrModalSlideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ausr-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ausr-modal-title {
+    color: #f8fafc;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.ausr-modal-close {
+    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    color: #94a3b8;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ausr-modal-close:hover {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+.ausr-modal-body {
+    padding: 24px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.ausr-preview-content {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 20px;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ausr-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ============================================================
+   Animations
+   ============================================================ */
+@keyframes ausrModalFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes ausrModalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* ============================================================
+   Loading States
+   ============================================================ */
+.ausr-btn.loading {
+    position: relative;
+    color: transparent;
+}
+
+.ausr-btn.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    margin: -8px 0 0 -8px;
+    border: 2px solid transparent;
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: ausrSpin 0.8s linear infinite;
+}
+
+@keyframes ausrSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ============================================================
+   Responsive Design
+   ============================================================ */
+@media (max-width: 768px) {
+    .ausr-visual-cards {
+        padding: 16px;
+    }
+    
+    .ausr-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .ausr-cards-title {
+        font-size: 24px;
+    }
+    
+    .ausr-cards-subtitle {
+        font-size: 14px;
+    }
+    
+    .ausr-card-header {
+        padding: 16px;
+    }
+    
+    .ausr-card-content {
+        padding: 16px;
+    }
+    
+    .ausr-card-actions {
+        padding: 16px;
+        flex-direction: column;
+    }
+    
+    .ausr-quick-actions-bar {
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px;
+    }
+    
+    .ausr-actions-left,
+    .ausr-actions-right {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .ausr-action-btn {
+        flex: 1;
+    }
+    
+    .ausr-modal-content {
+        width: 95%;
+        max-height: 90vh;
+    }
+    
+    .ausr-modal-header,
+    .ausr-modal-body,
+    .ausr-modal-footer {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ausr-section-card {
+        margin: 0 -8px;
+        border-radius: 12px;
+    }
+    
+    .ausr-card-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+    }
+    
+    .ausr-card-icon {
+        margin-right: 0;
+    }
+    
+    .ausr-preview-btn {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+    }
+    
+    .ausr-btn {
+        font-size: 13px;
+        padding: 10px 16px;
+    }
+    
+    .ausr-action-btn {
+        font-size: 13px;
+        padding: 10px 16px;
+    }
+}
