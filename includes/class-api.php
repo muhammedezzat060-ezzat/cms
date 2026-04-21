@@ -334,17 +334,28 @@ class AUSR_API {
 
     /**
      * استخراج ترويسة X-AUSR-Token (مع دعم $_SERVER للبروكسيات).
+     * يدعم أيضاً Query Parameter كخيار بديل: ?ausr_token=YOUR_TOKEN
      */
     private static function extract_x_ausr_token( WP_REST_Request $request ) {
+        // الأولوية: Headers
         foreach ( [ 'x_ausr_token', 'X-AUSR-Token', 'X_AUSR_TOKEN' ] as $header_key ) {
             $h = $request->get_header( $header_key );
             if ( is_string( $h ) && $h !== '' ) {
                 return trim( $h );
             }
         }
+
+        // الخيار الثاني: $_SERVER للبروكسيات
         if ( ! empty( $_SERVER['HTTP_X_AUSR_TOKEN'] ) && is_string( $_SERVER['HTTP_X_AUSR_TOKEN'] ) ) {
             return trim( wp_unslash( $_SERVER['HTTP_X_AUSR_TOKEN'] ) );
         }
+
+        // الخيار الثالث: Query Parameter (للاستضافات التي تحجب Headers)
+        $token_param = $request->get_param( 'ausr_token' );
+        if ( is_string( $token_param ) && $token_param !== '' ) {
+            return trim( $token_param );
+        }
+
         return '';
     }
 
