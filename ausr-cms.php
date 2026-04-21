@@ -25,6 +25,11 @@ define( 'AUSR_CMS_URL',        plugin_dir_url( __FILE__ ) );
 define( 'AUSR_CMS_BASENAME',   plugin_basename( __FILE__ ) );
 define( 'AUSR_CMS_DB_VERSION', '1.1' );
 
+// Public Read Token for API Access
+if ( ! defined( 'AUSR_SECURE_TOKEN' ) ) {
+    define( 'AUSR_SECURE_TOKEN', 'AUSR-SECURE-TOKEN-2026-PROD-8X7K9M2N4P5Q6R8S' );
+}
+
 // ============================================================
 // 3. تحميل الكلاسات
 // ============================================================

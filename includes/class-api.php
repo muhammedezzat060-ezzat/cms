@@ -319,9 +319,15 @@ class AUSR_API {
      * سر اختياري لقفل واجهة جلب المحتوى عن الاستطلاع العشوائي (اختياري بالكامل).
      */
     private static function get_public_read_secret() {
+        // الأولوية للثابت المعرّف في ausr-cms.php أو wp-config.php
+        if ( defined( 'AUSR_SECURE_TOKEN' ) && is_string( AUSR_SECURE_TOKEN ) && AUSR_SECURE_TOKEN !== '' ) {
+            return AUSR_SECURE_TOKEN;
+        }
+        // الخيار الثاني: الثابت القديم للتوافقية
         if ( defined( 'AUSR_CMS_PUBLIC_READ_TOKEN' ) && is_string( AUSR_CMS_PUBLIC_READ_TOKEN ) && AUSR_CMS_PUBLIC_READ_TOKEN !== '' ) {
             return AUSR_CMS_PUBLIC_READ_TOKEN;
         }
+        // الخيار الثالث: من إعدادات WordPress
         $opt = get_option( 'ausr_cms_public_read_token', '' );
         return is_string( $opt ) && $opt !== '' ? $opt : '';
     }
