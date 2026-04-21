@@ -88,7 +88,7 @@ class AUSR_API {
             'args'                => [
                 'page_key'    => [ 'required' => true, 'validate_callback' => [ __CLASS__, 'validate_page_key' ] ],
                 'element_key' => [ 'required' => true, 'validate_callback' => [ __CLASS__, 'validate_element_key' ] ],
-                'value'       => [ 'required' => true ],
+                'value'       => [ 'required' => true, 'sanitize_callback' => [ __CLASS__, 'sanitize_value_by_type' ] ],
                 'type'        => [ 'required' => false, 'default' => 'text' ],
                 'font_size'   => [ 'required' => false, 'validate_callback' => [ __CLASS__, 'validate_font_size' ] ],
             ],
@@ -250,6 +250,24 @@ class AUSR_API {
         return $param === null || ( is_numeric( $param ) && (int) $param >= 1 && (int) $param <= 100 );
     }
 
+    public static function sanitize_value_by_type( $value, $request, $key ) {
+        $type = $request->get_param( 'type' ) ?? 'text';
+        
+        switch ( $type ) {
+            case 'html':
+                return wp_kses_post( $value );
+            case 'url':
+            case 'image':
+                return esc_url_raw( $value );
+            case 'number':
+                return is_numeric( $value ) ? $value : 0;
+            case 'textarea':
+                return sanitize_textarea_field( $value );
+            default:
+                return sanitize_text_field( $value );
+        }
+    }
+
     // ============================================================
     // Permission Callback - التحقق من المصادقة
     // ============================================================
@@ -271,21 +289,25 @@ class AUSR_API {
     }
 
     /**
-     * قراءة عامة للمحتوى (GET): لا تتطلب تسجيل دخول — مناسبة لعرض الموقع للزوار عبر REST.
-     * طبقة اختيارية: إذا عُرّف الثابت AUSR_CMS_PUBLIC_READ_TOKEN أو الخيار ausr_cms_public_read_token
-     * يجب إرسال نفس القيمة في ترويسة X-AUSR-Token وإلا يُرفض الطلب (حماية إضافية دون إجبار الزائر على حساب WP).
+     * قراءة عامة للمحتوى (GET): تتطلب token إلزامياً للأمان.
+     * يجب إرسال نفس القيمة في ترويسة X-AUSR-Token وإلا يُرفض الطلب.
+     * إذا لم يتم تعريف AUSR_CMS_PUBLIC_READ_TOKEN، سيتم إنشاء واحد تلقائياً.
      */
     public static function permission_public_read( WP_REST_Request $request ) {
         $secret = self::get_public_read_secret();
+        
+        // إذا لم يتم تعريف token، أنشئ واحد تلقائياً
         if ( $secret === '' ) {
-            return true;
+            $secret = wp_generate_password( 32, false );
+            update_option( 'ausr_cms_public_read_token', $secret );
+            error_log( 'AUSR CMS: Auto-generated public read token for security' );
         }
 
         $sent = self::extract_x_ausr_token( $request );
         if ( $sent === '' || ! hash_equals( $secret, $sent ) ) {
             return new WP_Error(
                 'ausr_read_token',
-                'رمز القراءة X-AUSR-Token غير صالح أو مفقود',
+                'رمز القراءة X-AUSR-Token مطلوب للوصول إلى المحتوى',
                 [ 'status' => 403 ]
             );
         }
@@ -383,7 +405,7 @@ class AUSR_API {
             $cached = wp_cache_get( $cache_key );
             
             if ( $cached !== false ) {
-                return rest_ensure_response( [ 'success' => true, 'content' => $cached ] );
+                return rest_ensure_response( [ 'success' => true, 'content' => self::escape_content( $cached ) ] );
             }
             
             $content = AUSR_Database::get_all_content();
@@ -391,7 +413,7 @@ class AUSR_API {
             // تخزين في cache لمدة ساعة
             wp_cache_set( $cache_key, $content, '', 3600 );
             
-            return rest_ensure_response( [ 'success' => true, 'content' => $content ] );
+            return rest_ensure_response( [ 'success' => true, 'content' => self::escape_content( $content ) ] );
         } catch (Exception $e) {
             error_log("Get all content error: " . $e->getMessage());
             return self::error_response( 'حدث خطأ أثناء جلب المحتوى', 500 );
@@ -410,7 +432,7 @@ class AUSR_API {
             $cached = wp_cache_get( $cache_key );
             
             if ( $cached !== false ) {
-                return rest_ensure_response( [ 'success' => true, 'content' => $cached ] );
+                return rest_ensure_response( [ 'success' => true, 'content' => self::escape_content( $cached ) ] );
             }
             
             $content = AUSR_Database::get_page_content( $page_key );
@@ -418,7 +440,7 @@ class AUSR_API {
             // تخزين في cache
             wp_cache_set( $cache_key, $content, '', 1800 );
             
-            return rest_ensure_response( [ 'success' => true, 'content' => $content ] );
+            return rest_ensure_response( [ 'success' => true, 'content' => self::escape_content( $content ) ] );
         } catch (Exception $e) {
             error_log("Get page content error: " . $e->getMessage());
             return self::error_response( 'حدث خطأ أثناء جلب محتوى الصفحة', 500 );
@@ -430,6 +452,12 @@ class AUSR_API {
     // ============================================================
     public static function handle_save_element( WP_REST_Request $request ) {
         try {
+            // التحقق من CSRF Nonce
+            $nonce = $request->get_param( 'ausr_nonce' );
+            if ( ! wp_verify_nonce( $nonce, 'ausr_cms_save_content' ) ) {
+                return self::error_response( 'فشل التحقق من أمان الطلب (CSRF)', 403 );
+            }
+
             $page_key    = $request->get_param( 'page_key' );
             $element_key = $request->get_param( 'element_key' );
             $value       = $request->get_param( 'value' );
@@ -468,6 +496,12 @@ class AUSR_API {
     // ============================================================
     public static function handle_save_bulk( WP_REST_Request $request ) {
         try {
+            // التحقق من CSRF Nonce
+            $nonce = $request->get_param( 'ausr_nonce' );
+            if ( ! wp_verify_nonce( $nonce, 'ausr_cms_save_content' ) ) {
+                return self::error_response( 'فشل التحقق من أمان الطلب (CSRF)', 403 );
+            }
+
             $items = $request->get_param( 'items' );
 
             if ( empty( $items ) || ! is_array( $items ) ) {
@@ -788,5 +822,50 @@ class AUSR_API {
     // ============================================================
     private static function error_response( $message, $code = 400 ) {
         return new WP_Error( 'ausr_error', $message, [ 'status' => $code ] );
+    }
+
+    // ============================================================
+    // Escape Content - منع XSS في البيانات المرسلة
+    // ============================================================
+    private static function escape_content( $content ) {
+        if ( ! is_array( $content ) ) {
+            return $content;
+        }
+
+        $escaped = [];
+        foreach ( $content as $page_key => $elements ) {
+            if ( ! is_array( $elements ) ) {
+                continue;
+            }
+
+            foreach ( $elements as $element_key => $element_data ) {
+                if ( ! is_array( $element_data ) ) {
+                    continue;
+                }
+
+                $type = $element_data['type'] ?? 'text';
+                $value = $element_data['value'] ?? '';
+
+                // Escape حسب النوع
+                if ( $type === 'html' ) {
+                    // HTML: نستخدم wp_kses_post للسماح بـ HTML آمن فقط
+                    $escaped_value = wp_kses_post( $value );
+                } elseif ( $type === 'url' || $type === 'image' ) {
+                    // URL/Image: نستخدم esc_url
+                    $escaped_value = esc_url( $value );
+                } else {
+                    // Text: نستخدم esc_html
+                    $escaped_value = esc_html( $value );
+                }
+
+                $escaped[ $page_key ][ $element_key ] = [
+                    'type'      => $type,
+                    'value'     => $escaped_value,
+                    'font_size' => $element_data['font_size'] ?? null,
+                ];
+            }
+        }
+
+        return $escaped;
     }
 }

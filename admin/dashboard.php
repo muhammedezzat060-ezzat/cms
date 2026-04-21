@@ -11,6 +11,9 @@ if ( ! AUSR_Security::is_authenticated() ) {
     return;
 }
 
+// Generate WordPress Nonce for CSRF protection
+$ausr_nonce = wp_create_nonce( 'ausr_cms_save_content' );
+
 // Get Database content map
 $json_content = file_get_contents( AUSR_CMS_DIR . 'content.json' );
 $map = json_decode( $json_content, true );
@@ -219,6 +222,7 @@ $labels_map = [
                     <?php foreach ( $map as $page_key => $elements ) : ?>
                         <div id="section-<?php echo esc_attr( $page_key ); ?>" class="ausr-section <?php echo $page_key === 'home' ? '' : 'd-none'; ?>">
                             <form class="ausr-section-form" data-page="<?php echo esc_attr( $page_key ); ?>">
+                                <input type="hidden" name="ausr_nonce" value="<?php echo esc_attr( $ausr_nonce ); ?>">
                                 <div class="card shadow-sm mb-4">
                                     <div class="card-header bg-white">
                                         <h5 class="fw-bold mb-0">إدارة قسم: <?php echo esc_html( $sections[$page_key]['label'] ?? $page_key ); ?></h5>
@@ -269,3 +273,8 @@ $labels_map = [
         </div>
     </div>
 </div>
+
+<!-- Nonce for CSRF Protection -->
+<script>
+    window.ausrNonce = '<?php echo esc_js( $ausr_nonce ); ?>';
+</script>
